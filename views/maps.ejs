@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title><%= title %></title>
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+        <!-- Vendor CSS Files -->
+        <link href="public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="public/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="public/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="public/stylesheets/maps.css">
+        <link rel="stylesheet" href="jquery.dataTables.css">
+        <link rel="icon" href="public/assets/era.svg">
+
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    </head>
+    <body>
+        <!-- ======= Header ======= -->
+            <header id="header" class="d-flex flex-column justify-content-center">
+
+                <nav id="navbar" class="navbar nav-menu">
+                    <ul>
+                        <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+                        <li><a class="nav-link scrollto p-0 m-0">
+                                <img style="width: 100%; height: 100%" src="public/assets/era.svg" alt=""> <span style="padding-right: 20px">Earthquake Rapid Assessment </span></a>
+                        </li>
+                        <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Data</span></a></li>
+                    </ul>
+                </nav>
+
+            </header>
+        <!-- End Header -->
+
+        <!-- ======= Chart ======= -->
+            <div id="chart">
+                <canvas class="w-100 h-100 bg-dark bg-opacity-75 shadow rounded" id="myChart" ></canvas>
+            </div>
+        <!-- ======= End Chart ======= -->
+
+        <!-- ======= Hero Section ======= -->
+            <section id="hero">
+                <div id="map" class="h-100 w-100"></div>
+            </section>
+        <!-- End Hero -->
+
+        <!-- ======= Ingfo ======= -->
+            <div id="ingfo" class="m-5" hidden>
+                <div class="container h-100 w-100 bg-dark bg-opacity-75 shadow rounded">
+
+                    <div class="card text-white text-center h-100 bg-dark bg-opacity-75">
+                        <div class="card-header">
+                            Pratinjau
+                        </div>
+                        <div class="card-body overflow-auto">
+                            <div style="background: #36AE7C">
+                                <h5 id="prediksi" class="card-title">Rusak Berat</h5>
+                            </div>
+                            <div style="text-align: left;font-size: small">
+                                <p id="nama" class="card-text">Nama : </p>
+                                <p id="nik" class="card-text">NIK : </p>
+                                <p id="hp" class="card-text">No HP : </p>
+                                <p id="provinsi" class="card-text">Provinsi : </p>
+                                <p id="kota" class="card-text">Kabupaten/Kota : </p>
+                                <p id="kecamatan" class="card-text">Kecamatan : </p>
+                                <p id="desa" class="card-text">Kelurahan/Desa : </p>
+                                <p id="alamat" class="card-text">Alamat : </p>
+                            </div>
+                            <p class="card-text"> Gambar Kerusakan</p>
+                            <div class="w-100">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                    </div>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img id="img1" src="" class="d-block " style="width: 100%"  alt="Gambar 1">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img id="img2" src="" class="d-block " style="width: 100%" alt="Gambar 2">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img id="img3" src="" class="d-block " style="width: 100%" alt="Gambar 3">
+                                        </div>
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <p id="days"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <!-- ======= End Ingfo ======= -->
+
+
+        <!-- #main -->
+            <main id="main" class="w-100">
+
+                <!-- ======= Services Section ======= -->
+                    <section id="services" class="services text-center w-100">
+                        <div id="sss" class="container w-100 bg-light">
+                            <button id="export" class="btn bg-success text-white">Export</button>
+                            <table id="table" class="p-0 m-0 display hover cell-border table-bordered text-white">
+                                <thead style="background:#187498; border-color: black">
+
+                                <tr>
+                                    <th colspan="10" rowspan="2">Informasi Umum Pemilik Bangunan</th>
+                                    <th colspan="14">Kondisi Visual</th>
+                                    <th colspan="8">Isi Bangunan</th>
+                                    <th colspan="6">Penambahan Biaya</th>
+                                    <th colspan="6">Kehilangan Pendapatan</th>
+                                    <th rowspan="3">Prediksi</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">
+                                        Pondasi/SLOOF
+                                    </th>
+                                    <th colspan="3">
+                                        Balok dan Kolom
+                                    </th>
+                                    <th colspan="2">
+                                        Rangka Atap/Kuda Kuda
+                                    </th>
+                                    <th>
+                                        Penutup Atap
+                                    </th>
+                                    <th colspan="3">
+                                        Dinding
+                                    </th>
+                                    <th colspan="2">
+                                        Lantai
+                                    </th>
+                                    <th colspan="4">
+                                        Furnitur/Mebel
+                                    </th>
+                                    <th colspan="4">
+                                        Elektronik
+                                    </th>
+                                    <th colspan="3">
+                                        Sewa Pembersihan
+                                    </th>
+                                    <th colspan="3">
+                                        Tenaga Kerja
+                                    </th>
+                                    <th colspan="3">
+                                        Individu
+                                    </th>
+                                    <th colspan="3">
+                                        Usaha
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>No KK</th>
+                                    <th>No HP</th>
+                                    <th>Provinsi</th>
+                                    <th>Kabupaten/Kota</th>
+                                    <th>Kecamatan</th>
+                                    <th>Kelurahan/Desa</th>
+                                    <th>Alamat</th>
+                                    <th>RT/RW</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>1</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>3</th>
+                                    <th>1</th>
+                                    <th>2</th>
+                                    <th>Category</th>
+                                    <th>Nilai satuan</th>
+                                    <th>Nilai Kerusakan</th>
+                                    <th>Keterangan</th>
+                                    <th>Category</th>
+                                    <th>Nilai satuan</th>
+                                    <th>Nilai Kerusakan</th>
+                                    <th>Keterangan</th>
+                                    <th>Jumlah</th>
+                                    <th>Nilai Kerusakan</th>
+                                    <th>Keterangan</th>
+                                    <th>Jumlah</th>
+                                    <th>Nilai Kerusakan</th>
+                                    <th>Keterangan</th>
+                                    <th>Jumlah</th>
+                                    <th>Nilai Satuan</th>
+                                    <th>Durasi</th>
+                                    <th>Jumlah</th>
+                                    <th>Nilai Satuan</th>
+                                    <th>Durasi</th>
+                                </tr>
+
+                                </thead>
+
+                                <tbody id="dataTable" class="text-dark" style="border-color: #187498">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                <!-- End Services Section -->
+
+            </main>
+        <!-- End #main -->
+
+        <div id="preloader"></div>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+
+        <script
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhfahujblSE3AFfXzEOmv2Tcdmfe6B8ng&callback=initMap&v=weekly"
+                defer></script>
+
+        <!-- Template Main JS File -->
+        <script src="public/javascripts/mainMaps.js"></script>
+
+        <script src="chart.js"></script>
+        <script src="jquery.js"></script>
+<!--        <script src="anime.js"></script>-->
+        <script src="jquery.dataTables.js"></script>
+        <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+
+        <script>
+            // $(window).load(function() {
+            //     $("#loading").delay(2500).fadeOut("slow");
+            // })
+            const icons = {
+                'Rusak Berat':'public/assets/merah.svg',
+                'Rusak Sedang':'public/assets/kuning.svg',
+                'Rusak Ringan':'public/assets/hijau.svg',
+            };
+            let houses = {
+                'Rusak Berat': 0,
+                'Rusak Sedang':0,
+                'Rusak Ringan':0,
+                'total': 0,
+            };
+            function getPredict(data) {
+                let result = [];
+                const predict =  getMaxBobot(data, [
+                    'group_rt5uw42/pondasi_1',
+                    'group_rt5uw42/pondasi_2',
+                    'group_rt5uw42/pondasi_3',
+                ]) + getMaxBobot(data, [
+                    'group_jd3qc83/balok_1',
+                    'group_jd3qc83/balok_2',
+                    'group_jd3qc83/balok_3',
+                ]) + getMaxBobot(data, [
+                    'group_py68l88/atap_1',
+                    'group_py68l88/atap_2',
+                ]) + getMaxBobot(data, [
+                    'group_cx2my93/tutupAtap_1'
+                ]) + getMaxBobot(data, [
+                    'group_vz0kc55/dinding_1',
+                    'group_vz0kc55/dinding_2',
+                    'group_vz0kc55/dinding_3_001',
+                ]) + getMaxBobot(data, [
+                    'group_qc1tr36/lantai_1',
+                    'group_qc1tr36/lantai_2'
+                ]);
+                result.push(predict);
+                switch (predict) {
+                    case predict <= 30:
+                        result.push('Rusak Ringan');
+                        break
+                    case predict <= 50:
+                        result.push('Rusak Sedang');
+                        break
+                    default:
+                        result.push('Rusak Berat');
+                }
+                return result;
+            }
+            function getMaxBobot(data, listFiled){
+                let bobots = []
+                listFiled.forEach(function (field) {
+                    bobots.push(getBobot(data, field));
+                })
+                return Math.max(bobots);
+            }
+            function getBobot(data, field) {
+                const bobot = {
+                    'group_rt5uw42/pondasi_1':{
+                        '0_30':3,
+                        '30_50':4,
+                        '50_100':5,
+                    },'group_rt5uw42/pondasi_2':{
+                        '0_30':5,
+                        '30_50':8,
+                        '50_100':11,
+                    },'group_rt5uw42/pondasi_3':{
+                        '0_30':11,
+                        '30_50':14,
+                        '50_100':15,
+                    },
+
+                    'group_jd3qc83/balok_1':{
+                        '0_30':7,
+                        '30_50':9,
+                        '50_100':11,
+                    },'group_jd3qc83/balok_2':{
+                        '0_30':7,
+                        '30_50':9,
+                        '50_100':11,
+                    },'group_jd3qc83/balok_3':{
+                        '0_30':12,
+                        '30_50':26,
+                        '50_100':35,
+                    },
+
+                    'group_py68l88/atap_1':{
+                        '0_30':3,
+                        '30_50':5,
+                        '50_100':11,
+                    },'group_py68l88/atap_2':{
+                        '0_30':11,
+                        '30_50':14,
+                        '50_100':15,
+                    },
+
+                    'group_cx2my93/tutupAtap_1':{
+                        '0_50':5,
+                        '50_100':10,
+                    },
+
+                    'group_vz0kc55/dinding_1':{
+                        '0_30':3,
+                        '30_50':4,
+                        '50_100':5,
+                    },'group_vz0kc55/dinding_2':{
+                        '0_30':5,
+                        '30_50':8,
+                        '50_100':11,
+                    },'group_vz0kc55/dinding_3_001':{
+                        '0_30':11,
+                        '30_50':14,
+                        '50_100':15,
+                    },
+
+                    'group_qc1tr36/lantai_1':{
+                        '0_50':2,
+                        '50_100':3,
+                    },'group_qc1tr36/lantai_2':{
+                        '0_30':8,
+                        '30_50':9,
+                        '50_100':10,
+                    },
+                };
+                return bobot[field][data[field]];
+            }
+
+            function initMap() {
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 15,
+                    center: {
+                        lat:-0.9211302,
+                        lng:100.4451955
+                    },
+                });
+                $(document).ready(function () {
+                    let table = $('#table').delay(3000).DataTable({
+                        scrollX: true,
+                        autoWidth: true,
+                        scrollCollapse: false,
+                        responsive: true
+                    });
+                    $("#export").click(function (){
+                        $("#table").table2excel({
+                            filename: "era.xlsx"
+                        });
+                    })
+                    fetch('public/index.json')
+                        .then((response) => response.json())
+                        .then(function (json) {
+                            json.results.forEach(function (data) {
+                                const predict = getPredict(data);
+                                houses[predict[1]] = houses[predict[1]] + 1;
+                                houses['total'] = houses['total'] + 1;
+
+                                const marker = new google.maps.Marker({
+                                    position: {
+                                        lat:data._geolocation[0],
+                                        lng:data._geolocation[1]
+                                    },
+                                    map: map,
+                                    icon: icons[predict[1]],
+                                });
+                                marker.addListener("click",
+                                    (mark) => {
+                                        const ingfo = document.getElementById("ingfo");
+                                        let predEl = document.getElementById("prediksi");
+                                        predEl.textContent = predict[1];
+                                        switch (predict) {
+                                            case predict === "Rusak Ringan":
+                                                predEl.style.background = '#36AE7C';
+                                                break
+                                            case predict === "Rusak Sedang":
+                                                predEl.style.background = '#F9D923';
+                                                break
+                                            default:
+                                                predEl.style.background = '#EB5353';
+                                                break
+                                        }
+
+                                        $("#img1").attr("src",`${data._attachments[0]['download_small_url'].replace('?format=json', '')}`);
+                                        $("#img2").attr("src",`${data._attachments[1]['download_small_url'].replace('?format=json', '')}`);
+                                        $("#img3").attr("src",`${data._attachments[2]['download_small_url'].replace('?format=json', '')}`);
+
+                                        document.getElementById("nama").textContent = `Nama : ${data['group_pi2vy61/namaPemilik']}`;
+                                        document.getElementById("nik").textContent = `No NIK : ${data['group_pi2vy61/informasiUmumNik']}`;
+                                        document.getElementById("hp").textContent = `No HP : ${data['group_pi2vy61/informasiUmumNoHP']}`;
+                                        document.getElementById("provinsi").textContent = `Provinsi : ${data['group_pi2vy61/Provinsi']}`;
+                                        document.getElementById("kota").textContent = `Kabupaten/Kota : ${data['group_pi2vy61/Kabupaten_Kota']}`;
+                                        document.getElementById("kecamatan").textContent = `Kecamatan : ${data['group_pi2vy61/Kecamatan']}`;
+                                        document.getElementById("desa").textContent = `Kelurahan/Desa : ${data['group_pi2vy61/Kelurahan_Desa']}`;
+                                        document.getElementById("alamat").textContent = `Alamat : ${data['group_pi2vy61/Alamat']}`;
+                                        document.getElementById("days").textContent = `${data['today']}`;
+                                        ingfo.hidden = ingfo.hidden !== true;
+                                    });
+
+                                table.row.add([
+                                    `${data['group_pi2vy61/namaPemilik']}`,
+                                    `${data['group_pi2vy61/informasiUmumNik']}`,
+                                    `${data['group_pi2vy61/informasiUmumNoKK']}`,
+                                    `${data['group_pi2vy61/informasiUmumNoHP']}`,
+                                    `${data['group_pi2vy61/Provinsi']}`,
+                                    `${data['group_pi2vy61/Kabupaten_Kota']}`,
+                                    `${data['group_pi2vy61/Kecamatan']}`,
+                                    `${data['group_pi2vy61/Kelurahan_Desa']}`,
+                                    `${data['group_pi2vy61/Alamat']}`,
+                                    `${data['group_pi2vy61/RT_RW']}`,
+
+                                    `${getBobot(data, 'group_rt5uw42/pondasi_1')}%`,
+                                    `${getBobot(data, 'group_rt5uw42/pondasi_2')}%`,
+                                    `${getBobot(data, 'group_rt5uw42/pondasi_3')}%`,
+
+                                    `${getBobot(data, 'group_jd3qc83/balok_1')}%`,
+                                    `${getBobot(data, 'group_jd3qc83/balok_2')}%`,
+                                    `${getBobot(data, 'group_jd3qc83/balok_3')}%`,
+
+                                    `${getBobot(data, 'group_py68l88/atap_1')}%`,
+                                    `${getBobot(data, 'group_py68l88/atap_2')}%`,
+
+                                    `${getBobot(data, 'group_cx2my93/tutupAtap_1')}%`,
+
+                                    `${getBobot(data, 'group_vz0kc55/dinding_1')}%`,
+                                    `${getBobot(data, 'group_vz0kc55/dinding_2')}%`,
+                                    `${getBobot(data, 'group_vz0kc55/dinding_3_001')}%`,
+
+                                    `${getBobot(data, 'group_qc1tr36/lantai_1')}%`,
+                                    `${getBobot(data, 'group_qc1tr36/lantai_2')}%`,
+
+                                    `${data['group_xk5xz33/furniturOption']}`,
+                                    `${data['group_xk5xz33/furniturNilaiSatuan']}`,
+                                    `${data['group_xk5xz33/furniturNilaiKerusakan']}`,
+                                    `${data['group_xk5xz33/furniturKeterangan']}`,
+
+                                    `${data['group_xk5xz33/elektronikOption']}`,
+                                    `${data['group_xk5xz33/elektronikNilaiSatuan']}`,
+                                    `${data['group_xk5xz33/elektronikNilaiKerusakan']}`,
+                                    `${data['group_xk5xz33/elektronikKeterangan']}`,
+
+                                    `${data['group_ra1ls18/sewaJumlah']}`,
+                                    `${data['group_ra1ls18/sewaNilai']}`,
+                                    `${data['group_ra1ls18/sewaKeterangan']}`,
+
+                                    `${data['group_ra1ls18/sewaJumlah']}`,
+                                    `${data['group_ra1ls18/sewaNilai']}`,
+                                    `${data['group_ra1ls18/sewaKeterangan']}`,
+
+                                    `${data['group_qo6ww56/pendapatanIndividuJumlah']}`,
+                                    `${data['group_qo6ww56/pendapatanIndividuHarga']}`,
+                                    `${data['group_qo6ww56/pendapatanIndividuDurasi']}`,
+
+                                    `${data['group_qo6ww56/pendapatanUsahaJumlah']}`,
+                                    `${data['group_qo6ww56/pendapatanUsahaNilai']}`,
+                                    `${data['group_qo6ww56/pendapatanUsahaDurasi']}`,
+
+                                    `${predict[1]}`
+                                ]).draw(true);
+                            });
+                            const labels = [
+                                'Rusak Ringan',
+                                'Rusak Sedang',
+                                'Rusak Berat',
+                            ];
+
+                            Chart.defaults.font.family = "Lato";
+                            Chart.defaults.font.size = 20;
+                            Chart.defaults.color = "white";
+                            Chart.defaults.plugins.legend.position = 'right';
+                            Chart.defaults.plugins.legend.title.text = 'Hasil Survey';
+                            Chart.defaults.plugins.legend.title.display = true;
+                            Chart.defaults.plugins.legend.title.padding = 5;
+
+                            const data = {
+                                labels: labels,
+                                datasets:[
+                                    {
+                                        data: [
+                                            houses['Rusak Ringan'],
+                                            houses['Rusak Sedang'],
+                                            houses['Rusak Berat']
+                                        ],
+                                        backgroundColor: [
+                                            "#36AE7C",
+                                            "#F9D923",
+                                            "#EB5353",
+                                        ],
+                                    }
+                                ],
+                                hoverOffset: 4
+                            };
+
+                            const config = {
+                                type: 'pie',
+                                data: data,
+                            };
+
+                            const myChart = new Chart(
+                                document.getElementById('myChart'),
+                                config
+                            );
+                        });
+                });
+            }
+            window.initMap = initMap;
+
+
+
+        </script>
+
+    </body>
+</html>

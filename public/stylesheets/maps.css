@@ -161,6 +161,7 @@ h6 {
     list-style: none;
 }
 
+
 .nav-menu>ul>li {
     position: relative;
     white-space: nowrap;
@@ -305,12 +306,11 @@ section {
     right: 0;
     padding: 0;
 }
-tr, td {
-    width: 100%;
-}
 
-#table {
+table {
     font-size: smaller;
+    table-layout: auto;
+    border-collapse: collapse;
 }
 
 /*--------------------------------------------------------------

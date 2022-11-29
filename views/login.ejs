@@ -16,37 +16,39 @@
     <link rel="icon" href="public/assets/ICON_E_RA_png.png">
 
 
-</head>
+    </head>
 <body class="my-auto mx-auto my-auto" style="height: 100vh; width: 100vh">
 
 
 
-<div class="login-box">
-    <img class="w-100 h-75" src="public/assets/ICON_E_RA_png.png" alt="">
-    <form id="form" method="post" action="/maps">
-        <div class="user-box">
-            <input type="text" name="username" required="">
-            <label>Username</label>
-        </div>
-        <div class="user-box">
-            <input type="password" name="password" required="">
-            <label>Password</label>
-        </div>
-        <a onclick="submit()" href="#">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Submit
-        </a>
-    </form>
+    <div class="login-box">
 
-    <script>
-        function submit(){
-            document.getElementById("form").submit();
-        }
-    </script>
-</div>
+        <img class="w-100 h-75" src="public/assets/ICON_E_RA_png.png" alt="Icon E-RA">
+
+        <form id="form" method="post" action="/maps">
+            <div class="user-box">
+                <input type="text" name="username" required="">
+                <label>Username</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name="password" required="">
+                <label>Password</label>
+            </div>
+            <a onclick="submit()" href="#">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Submit
+            </a>
+        </form>
+
+        <script>
+            function submit(){
+                document.getElementById("form").submit();
+            }
+        </script>
+    </div>
 
 
 

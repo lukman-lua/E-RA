@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const morgan = require("morgan");
+const { createProxyMiddleware } = require('http-proxy-middleware');
+require('dotenv').config()
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -15,6 +18,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
+app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/public',express.static(path.join(__dirname, 'public')));
@@ -25,8 +29,21 @@ app.use(express.static(path.join(__dirname, 'node_modules/animejs/lib')));
 app.use(express.static(path.join(__dirname, 'node_modules/datatables.net/js')));
 app.use(express.static(path.join(__dirname, 'node_modules/datatables.net-dt/css')));
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Headers', "*");
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', createProxyMiddleware({
+  target: "https://kobo.humanitarianresponse.info/api/v2/assets/aBYR2hE4Xuc2ioiErnFxr4/data/?format=json",
+  changeOrigin: true,
+  pathRewrite: {
+    [`^/api`]: '',
+  },
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

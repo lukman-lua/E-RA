@@ -393,7 +393,7 @@
                             filename: "era.xlsx"
                         });
                     })
-                    fetch('public/index.json')
+                    fetch('http://127.0.0.1:3000/api')
                         .then((response) => response.json())
                         .then(function (json) {
                             json.results.forEach(function (data) {

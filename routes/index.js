@@ -7,8 +7,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/maps', function(req, res, next) {
   if (
-      req.body.username == "era-unand" &
-      req.body.password == "EraUnand2022*"
+      req.body.username === "era-unand" &
+      req.body.password === "EraUnand2022*"
   ){
     res.render('maps', {
       title: 'E-RA',
